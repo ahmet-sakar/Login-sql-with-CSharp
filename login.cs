@@ -35,7 +35,7 @@ namespace ITEnzim.Forms
         private void btnLogin_Click(object sender, EventArgs e)
         {
             connection.Open();
-            SqlCommand command = new SqlCommand(@"SELECT * FROM USERS WHERE username=@username AND password=@password", connection);
+            SqlCommand command = new SqlCommand("SELECT * FROM USERS WHERE username=@username AND password=@password", connection);
             command.Parameters.AddWithValue("@username", txtUsername.Text);
             command.Parameters.AddWithValue("@password", txtPassword.Text);
             SqlDataReader dr = command.ExecuteReader();
