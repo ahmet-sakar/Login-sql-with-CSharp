@@ -35,20 +35,26 @@ namespace ITEnzim.Forms
         private void btnLogin_Click(object sender, EventArgs e)
         {
             connection.Open();
-            SqlCommand command = new SqlCommand("SELECT * FROM USERS WHERE username=@username AND password=@password", connection);
+            SqlCommand command = new SqlCommand("SELECT * FROM users WHERE username=@username AND password=@password", connection);
             command.Parameters.AddWithValue("@username", txtUsername.Text);
             command.Parameters.AddWithValue("@password", txtPassword.Text);
             SqlDataReader dr = command.ExecuteReader();
             if (dr.Read())
             {
+		if (dr["auth"].toString() == "1") 
+		{
+		    // Admin Panel redirect
+		} 
+		else if (dr["auth"].toString() == "0")  
+		{
+		    // User Panel redirect
+		}
+
                 dr.Close();
-                main frmMain = new main();
-		frmMain.Show();
-                this.Hide();
             }
             else
             {
-                MessageBox.Show("Kullanıcı adı veya şifre yanlış!", "Hata");
+                MessageBox.Show("Username or password wrong!", "Error");
             }
 
             connection.Close();
