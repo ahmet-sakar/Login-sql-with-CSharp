@@ -8,7 +8,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using ITEnzim.Properties;
 
 namespace ITEnzim.Forms
 {
@@ -19,17 +18,11 @@ namespace ITEnzim.Forms
             InitializeComponent();
         }
 
-        private SqlConnection connection = new SqlConnection(new Class.DBHelper().connect);
+        private SqlConnection connection = new SqlConnection(@"Data Source=MACHINE_NAME;Initial Catalog=DBNAME;User ID=USERNAME;Password=PASSWORD");
 
         private void login_Load(object sender, EventArgs e)
         {
             txtUsername.Focus();
-            /*if (Settings.Default.username != "")
-            {
-                txtUsername.Text = Settings.Default.username;
-                txtPassword.Text = Settings.Default.password;
-            }
-            else txtUsername.Focus();*/
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
@@ -49,17 +42,13 @@ namespace ITEnzim.Forms
             if (dr.Read())
             {
                 dr.Close();
-                Settings.Default.username = txtUsername.Text;
-                Settings.Default.password = txtPassword.Text;
-                Settings.Default.Save();
-                new main().Show();
-                this.Close();
+                main frmMain = new main();
+		frmMain.Show();
+                this.Hide();
             }
             else
             {
-                MessageDialog.Text = "Kullanıcı adı veya şifre yanlış!";
-                MessageDialog.Icon = Guna.UI2.WinForms.MessageDialogIcon.Warning;
-                MessageDialog.Show();
+                MessageBox.Show("Kullanıcı adı veya şifre yanlış!", "Hata");
             }
 
             connection.Close();
